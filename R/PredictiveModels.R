@@ -102,6 +102,11 @@ pred.model.timeic <- function(marker, left, right, outcome, time, meth){
       new <- data.frame(marker = c(as.numeric(marker)))
       row.names(new) <- sapply(1:length(marker), function(i){paste0("grp",i)})
       SurvCurves     <- getSCurves(mod,new)
+      # Added by NB 1/5/23 to address two identical (overlapping) Turnbull intervals (can occur when icenReg::ic_sp generates Turnbull intervals in which T_bull_Intervals[1,1] == T_bull_Intervals[1,2] and icenReg::SurvCurves adds min. lower limit to both upper and lower vectors)
+      if(SurvCurves$Tbull_ints[1,2] == SurvCurves$Tbull_ints[2,2]) {
+            SurvCurves$Tbull_ints <- SurvCurves$Tbull_ints[-2,]
+            SurvCurves$S_curves <- lapply(SurvCurves$S_curves, function(x) x[-2])
+      }
       if (meth == "L"){
             PR <- sapply(1:length(marker), fuA, time, SurvCurves$Tbull_ints, SurvCurves$S_curves, left, right)
       } else{

@@ -6,7 +6,7 @@ Authors@R: c(person(given="Susana", family="Diaz-Coto", role = "aut", email = "s
 Description: Provides estimations of the Receiver Operating Characteristic (ROC) curve and the Area Under the Curve (AUC) based on the two-stages mixed-subjects ROC curve estimator (Diaz-Coto et al. (2020) <doi:10.1515/ijb-2019-0097> and Diaz-Coto et al. (2020) <doi:10.1080/00949655.2020.1736071>).
 License: GPL
 Encoding: UTF-8
-Imports: survival, rms, foreach, ggplot2, flextable, plotROC, icenReg,
+Imports: survival, rms, parallel, foreach, doParallel, ggplot2, flextable, plotROC, icenReg,
         RISCA, thregI
 LazyData: true
 Depends: R (>= 2.10)
