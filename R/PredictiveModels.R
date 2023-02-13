@@ -95,6 +95,10 @@ pred.model.timeic <- function(marker, left, right, outcome, time, meth){
                         }
                   }
              }
+             ## Added by NB 2/12/23 because when up = vp, P is NaN.
+             if(is.na(P)){
+                  P <- 1
+             }
              return(P)
       }
       dat <- data.frame(marker = marker, left = left, right = right)
