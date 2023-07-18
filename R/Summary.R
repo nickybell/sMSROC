@@ -38,7 +38,7 @@ probs.pred <- function (sMS, var =  c("F", "T"), nboots = 500, parallel = c("F",
                                   meth = sMS$data$meth, data_type = sMS$data$type,
                                   time = sMS$time, parallel = data_parallel,
                                   ci.nboots = nboots, grid = sMS$data$grid, ncpus = ncpus)
-            sd.matr    <- splinefun(sort(sMS$data$marker), var$sd.probs)(sort(sMS$data$marker))
+            sd.matr    <- splinefun(sort(sMS$data$marker), var$sd.probs, ties = mean)(sort(sMS$data$marker))
             ymin <- (sMS$probs - 1.96 * sd.matr)
             ymax <-  pmin(sMS$probs + 1.96 * sd.matr, rep(1,length(sMS$thres)))
             df1  <- data.frame(x = sMS$thres, y = sMS$probs, ymin = ymin, ymax = ymax)

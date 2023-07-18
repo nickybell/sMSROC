@@ -64,7 +64,7 @@ auc.ci.nvar <- function(marker, outcome, status, observed.time, left, right, tim
             sd.probs   <- variance.probs(marker, outcome, status, observed.time, left, right,
                                          time, meth, data_type, grid, probs, nboots, parallel,
                                          ncpus, all)
-            sd.matr    <- splinefun(sort(marker), sd.probs$sd.probs)(sort(marker))
+            sd.matr    <- splinefun(sort(marker), sd.probs$sd.probs, ties = mean)(sort(marker))
       } else{
             sd.matr    <- sd.probs
       }
@@ -104,7 +104,7 @@ variance.probs <- function(marker, outcome, status, observed.time, left, right,
                   }
                   Iv   <- which(!is.na(boots.var$probs))
                      if (length(Iv) > 0) {
-                        fu_P <- approxfun(boots.var$marker[Iv], boots.var$probs[Iv])(sort(marker))
+                        fu_P <- approxfun(boots.var$marker[Iv], boots.var$probs[Iv], ties = mean)(sort(marker))
                      } else{
                         fu_P <- rep(NA, length(marker))
                      }

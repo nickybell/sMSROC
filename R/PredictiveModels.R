@@ -23,7 +23,7 @@ pred.model.binout <- function(marker, status, meth){
             J   <- which(dtu$marker == max(dtu$marker[I]))
             pma <- dtu$model[J[1]]
       }
-      fuT <- approxfun(c(vmi, dtu$marker, vma), c(pmi,dtu$model, pma))(marker)
+      fuT <- approxfun(c(vmi, dtu$marker, vma), c(pmi,dtu$model, pma), ties = mean)(marker)
       MP  <- cbind(marker, as.numeric(1 / (1 + exp(fuT))))
       MP  <- MP[order(marker),]
       ret <- list()
@@ -44,7 +44,7 @@ pred.model.emp <- function(marker, status){
 }
 pred.model.timerc <- function(marker, status, observed.time, outcome, time, meth){
       fuT <- function(i, basehtime, basehhazard, predtime, t){
-            fuT <- approxfun(basehtime, 1 - exp(-basehhazard * exp(predtime[i])))(t)
+            fuT <- approxfun(basehtime, 1 - exp(-basehhazard * exp(predtime[i])), ties = mean)(t)
       }
       if (meth == "L"){
             mod <- coxph(Surv(observed.time, status) ~ marker)
@@ -73,7 +73,7 @@ pred.model.timeic <- function(marker, left, right, outcome, time, meth){
                         pi <- Scurve[[1]][In]
                   } else{
                        pi <- approxfun(c(Tbull.ints[In,1], Tbull.ints[In,2]),
-                              c(Scurve[[1]][In-1], Scurve[[1]][In]))(point)
+                              c(Scurve[[1]][In-1], Scurve[[1]][In]), ties = mean)(point)
                   }
             }
             return(pi)
